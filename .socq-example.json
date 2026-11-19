@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "templateVersion": "2.0.0",
+  "kind": "platform",
+  "platform": "google-hotels",
+  "endpointCount": 3,
+  "endpoints": [
+    "google-hotels/search",
+    "google-hotels/hotel-details",
+    "google-hotels/hotel-prices"
+  ],
+  "landingPage": "https://socq.ai/apis/google-hotels",
+  "docsPage": "https://docs.socq.ai/api-manual/google-hotels/overview",
+  "generatedFrom": "SocQAPI/socq-example-template"
+}

@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "platform": "google-hotels",
+  "platformName": "Google Hotels",
+  "baseUrl": "https://api.socq.ai",
+  "creditUsd": 0.005,
+  "endpoints": [
+    {
+      "publicId": "google-hotels/search",
+      "name": "Google Hotels API",
+      "description": "Search Google Hotels for a destination with stars, guest ratings, nightly prices for your dates, location and photos.",
+      "method": "POST",
+      "path": "/v1/google-hotels/search",
+      "payload": "payloads/search.json",
+      "launchedAt": "2026-11-17",
+      "price": "0.15 credits ($0.00075) per result",
+      "billing": {
+        "baseCredits": 0,
+        "mode": "base_plus_result",
+        "resultUnitSize": 1,
+        "resultUnitCredits": 0.15,
+        "estimateResultCount": 18,
+        "emptyResultPolicy": "base_only"
+      },
+      "docsUrl": "https://docs.socq.ai/api-manual/google-hotels/search",
+      "landingUrl": "https://socq.ai/apis/google-hotels/search",
+      "required": [
+        "query"
+      ],
+      "requiredAnyOf": [],
+      "mutuallyExclusive": [],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "callback_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "check_in": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-in date in YYYY-MM-DD format. Defaults to tomorrow; give check_out with it."
+          },
+          "check_out": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-out date in YYYY-MM-DD format, after check_in and at most 30 nights later."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{3}$",
+            "description": "Three-letter currency code for prices, such as USD or EUR."
+          },
+          "language_code": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 10,
+            "default": "en",
+            "description": "Language code of the results. Defaults to en."
+          },
+          "location_code": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Search market location code. Defaults to 2840 (United States).",
+            "default": 2840
+          },
+          "max_price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Highest nightly price to include, in the chosen currency."
+          },
+          "min_price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Lowest nightly price to include, in the chosen currency."
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Destination or hotel search, such as `hotels in new york`."
+          },
+          "results_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 140,
+            "default": 18
+          },
+          "sort_by": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "highest_rating",
+              "lowest_price",
+              "most_reviewed",
+              "relevance"
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "description": "Provide a destination or hotel search in query. Add check_in and check_out to price a specific stay; without them prices are for one night from tomorrow. results_limit defaults to 18 and accepts integers from 1 to 140."
+      }
+    },
+    {
+      "publicId": "google-hotels/hotel-details",
+      "name": "Google Hotel Details API",
+      "description": "Get a hotel's address, amenities, location scores, rating breakdown, review topics and the offer from each booking site.",
+      "method": "POST",
+      "path": "/v1/google-hotels/hotel-details",
+      "payload": "payloads/hotel-details.json",
+      "launchedAt": "2026-11-17",
+      "price": "2 credits ($0.01) per call",
+      "billing": {
+        "baseCredits": 2,
+        "mode": "fixed"
+      },
+      "docsUrl": "https://docs.socq.ai/api-manual/google-hotels/hotel-details",
+      "landingUrl": "https://socq.ai/apis/google-hotels/hotel-details",
+      "required": [
+        "hotel_id"
+      ],
+      "requiredAnyOf": [],
+      "mutuallyExclusive": [],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "callback_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "check_in": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-in date in YYYY-MM-DD format. Defaults to tomorrow; give check_out with it."
+          },
+          "check_out": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-out date in YYYY-MM-DD format, after check_in and at most 30 nights later."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{3}$",
+            "description": "Three-letter currency code for prices, such as USD or EUR."
+          },
+          "hotel_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Hotel ID from the `id` field of Google Hotels Search results."
+          },
+          "language_code": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 10,
+            "default": "en",
+            "description": "Language code of the results. Defaults to en."
+          },
+          "location_code": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Search market location code. Defaults to 2840 (United States).",
+            "default": 2840
+          }
+        },
+        "required": [
+          "hotel_id"
+        ],
+        "description": "Provide a hotel_id from Google Hotels Search. The result is one row with the hotel's address, contact details, amenities, location scores, guest ratings, review topics and the offers from each booking site for the chosen stay."
+      }
+    },
+    {
+      "publicId": "google-hotels/hotel-prices",
+      "name": "Hotel Price Tracker API",
+      "description": "Get a hotel's lowest nightly price for each check-in date over the coming weeks from Google Hotels.",
+      "method": "POST",
+      "path": "/v1/google-hotels/hotel-prices",
+      "payload": "payloads/hotel-prices.json",
+      "launchedAt": "2026-11-17",
+      "price": "4 credits ($0.02) per call",
+      "billing": {
+        "baseCredits": 4,
+        "mode": "fixed"
+      },
+      "docsUrl": "https://docs.socq.ai/api-manual/google-hotels/hotel-prices",
+      "landingUrl": "https://socq.ai/apis/google-hotels/hotel-prices",
+      "required": [
+        "hotel_id"
+      ],
+      "requiredAnyOf": [],
+      "mutuallyExclusive": [],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "callback_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "check_in": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-in date in YYYY-MM-DD format. Defaults to tomorrow; give check_out with it."
+          },
+          "check_out": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Check-out date in YYYY-MM-DD format, after check_in and at most 30 nights later."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{3}$",
+            "description": "Three-letter currency code for prices, such as USD or EUR."
+          },
+          "hotel_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Hotel ID from the `id` field of Google Hotels Search results."
+          },
+          "language_code": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 10,
+            "default": "en",
+            "description": "Language code of the results. Defaults to en."
+          },
+          "location_code": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Search market location code. Defaults to 2840 (United States).",
+            "default": 2840
+          }
+        },
+        "required": [
+          "hotel_id"
+        ],
+        "description": "Provide a hotel_id from Google Hotels Search. Each row is the lowest nightly price for one check-in date, covering roughly the next two months from check_in."
+      }
+    }
+  ]
+}
